@@ -8,6 +8,7 @@ function App() {
   const [movimientos, setMovimientos] = useState([]);
   const [cuentas, setCuentas] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [clientesProveedores, setClientesProveedores] = useState([]);
 
   const [vistaActiva, setVistaActiva] = useState("balanceResumen"); // "balanceResumen" o "transaccionesMovimientos"
 
@@ -32,19 +33,24 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [transRes, movRes, cuentasRes] = await Promise.all([
-          fetch("http://localhost:3001/transacciones"),
-          fetch("http://localhost:3001/movimientos"),
-          fetch("http://localhost:3001/cuenta_descripcion"),
-        ]);
+        const [transRes, movRes, cuentasRes, clientesProveedoresRes] =
+          await Promise.all([
+            fetch("http://localhost:3001/transacciones"),
+            fetch("http://localhost:3001/movimientos"),
+            fetch("http://localhost:3001/cuenta_descripcion"),
+            fetch("http://localhost:3001/clientes_proveedores"), // Carga clientes_proveedores
+          ]);
 
         const transData = await transRes.json();
         const movData = await movRes.json();
         const cuentasData = await cuentasRes.json();
+        const clientesProveedoresData = await clientesProveedoresRes.json();
 
         setTransacciones(transData);
         setMovimientos(movData);
         setCuentas(cuentasData);
+        setClientesProveedores(clientesProveedoresData); // Guarda en el estado
+
         setLoading(false);
       } catch (error) {
         console.error("Error al cargar datos:", error);
@@ -282,19 +288,26 @@ function App() {
             Transacciones
           </h2>
           <ul className="space-y-2">
-            {transacciones.map((t) => (
-              <li
-                key={t.id}
-                onClick={() => setTransaccionSeleccionada(t)}
-                className={`p-3 border rounded-lg cursor-pointer transition-all duration-300 ${
-                  transaccionSeleccionada?.id === t.id
-                    ? "bg-blue-100"
-                    : "hover:bg-gray-100"
-                }`}
-              >
-                {t.fecha} - {t.descripcion}
-              </li>
-            ))}
+            {transacciones.map((t) => {
+              const clienteProveedor = clientesProveedores.find(
+                (cp) => cp.id === t.cliente_proveedor_id
+              ); // Encuentra el cliente o proveedor
+
+              return (
+                <li
+                  key={t.id}
+                  onClick={() => setTransaccionSeleccionada(t)}
+                  className={`p-3 border rounded-lg cursor-pointer transition-all duration-300 ${
+                    transaccionSeleccionada?.id === t.id
+                      ? "bg-blue-100"
+                      : "hover:bg-gray-100"
+                  }`}
+                >
+                  {t.fecha} - {t.descripcion} -{" "}
+                  {clienteProveedor ? clienteProveedor.nombre : "Sin asignar"}
+                </li>
+              );
+            })}
           </ul>
 
           {transaccionSeleccionada && (

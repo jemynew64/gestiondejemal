@@ -3,274 +3,146 @@
     {
       "id": 1,
       "fecha": "2024-11-24",
-      "descripcion": "Por la provisión de la compra"
+      "descripcion": "Por la provisión de la compra",
+      "cliente_proveedor_id": 1
     },
     {
       "id": 2,
       "fecha": "2024-11-27",
-      "descripcion": "Por el pago de la compra"
+      "descripcion": "Por el pago de la compra",
+      "cliente_proveedor_id": 1
     },
     {
       "id": 3,
       "fecha": "2024-11-30",
-      "descripcion": "Por la provisión de la venta"
+      "descripcion": "Por la provisión de la venta",
+      "cliente_proveedor_id": 4
     },
     {
       "id": 4,
       "fecha": "2024-12-02",
-      "descripcion": "Por el cobro de la venta"
+      "descripcion": "Por el cobro de la venta",
+      "cliente_proveedor_id": 4
     },
     {
       "id": "a1d6",
       "fecha": "2024-10-01",
-      "descripcion": "compra de libros"
+      "descripcion": "Compra de libros",
+      "cliente_proveedor_id": 2
     },
     {
       "id": "b323",
-      "descripcion": "pago de libros",
-      "fecha": "2024-11-01"
+      "descripcion": "Pago de libros",
+      "fecha": "2024-11-01",
+      "cliente_proveedor_id": 2
     },
     {
       "id": "bc32",
-      "descripcion": "comprando perrito",
-      "fecha": "2024-11-29"
+      "descripcion": "Comprando perrito",
+      "fecha": "2024-11-29",
+      "cliente_proveedor_id": 5
     },
     {
       "id": "b0dc",
-      "descripcion": "pagar la compra de los perritos",
-      "fecha": "2024-11-29"
+      "descripcion": "Pagar la compra de los perritos",
+      "fecha": "2024-11-29",
+      "cliente_proveedor_id": 5
     },
     {
       "id": "4a9b",
-      "descripcion": "comprando a mi perrito neron",
-      "fecha": "2024-11-09"
+      "descripcion": "Comprando a mi perrito Nerón",
+      "fecha": "2024-11-09",
+      "cliente_proveedor_id": 5
     },
     {
       "id": "3656",
-      "descripcion": "pagando por mi perrito ",
-      "fecha": "2024-11-30"
+      "descripcion": "Pagando por mi perrito",
+      "fecha": "2024-11-30",
+      "cliente_proveedor_id": 5
     },
     {
       "id": "577c",
-      "descripcion": "vender a un admin",
-      "fecha": "2024-11-30"
+      "descripcion": "Vender a un admin",
+      "fecha": "2024-11-30",
+      "cliente_proveedor_id": 6
     },
     {
       "id": "3649",
-      "descripcion": "cobrar venta admin",
-      "fecha": "2024-12-01"
+      "descripcion": "Cobrar venta admin",
+      "fecha": "2024-12-01",
+      "cliente_proveedor_id": 6
     }
   ],
   "movimientos": [
     {
-      "id": 1,
+      "id": "1880",
       "transaccion_id": 1,
       "cuenta_descripcion_id": 4,
-      "debe": 40,
+      "debe": 500,
       "haber": null
     },
     {
-      "id": 2,
+      "id": "4589",
       "transaccion_id": 1,
       "cuenta_descripcion_id": 2,
-      "debe": 7.2,
+      "debe": 90,
       "haber": null
     },
     {
-      "id": 3,
+      "id": "be55",
       "transaccion_id": 1,
       "cuenta_descripcion_id": 6,
       "debe": null,
-      "haber": 47.2
+      "haber": 590
     },
     {
-      "id": 4,
+      "id": "f81d",
       "transaccion_id": 2,
       "cuenta_descripcion_id": 6,
-      "debe": 47.2,
+      "debe": 590,
       "haber": null
     },
     {
-      "id": 5,
+      "id": "14fd",
       "transaccion_id": 2,
       "cuenta_descripcion_id": 5,
       "debe": null,
-      "haber": 47.2
+      "haber": 590
     },
     {
-      "id": 6,
+      "id": "fe79",
       "transaccion_id": 3,
       "cuenta_descripcion_id": 1,
-      "debe": 53.1,
+      "debe": 590,
       "haber": null
     },
     {
-      "id": 7,
+      "id": "f93b",
       "transaccion_id": 3,
       "cuenta_descripcion_id": 2,
       "debe": null,
-      "haber": 8.1
+      "haber": 90
     },
     {
-      "id": 8,
+      "id": "0893",
       "transaccion_id": 3,
       "cuenta_descripcion_id": 3,
       "debe": null,
-      "haber": 45
+      "haber": 500
     },
     {
-      "id": 9,
+      "id": "cde9",
       "transaccion_id": 4,
       "cuenta_descripcion_id": 5,
-      "debe": 53.1,
+      "debe": 590,
       "haber": null
     },
     {
-      "id": 10,
+      "id": "51ae",
       "transaccion_id": 4,
       "cuenta_descripcion_id": 1,
       "debe": null,
-      "haber": 53.1
-    },
-    {
-      "id": "d9d7",
-      "transaccion_id": "a1d6",
-      "cuenta_descripcion_id": 4,
-      "debe": 40,
-      "haber": null
-    },
-    {
-      "id": "6777",
-      "transaccion_id": "a1d6",
-      "cuenta_descripcion_id": 2,
-      "debe": 7.199999999999999,
-      "haber": null
-    },
-    {
-      "id": "a3d0",
-      "transaccion_id": "a1d6",
-      "cuenta_descripcion_id": 6,
-      "debe": null,
-      "haber": 47.2
-    },
-    {
-      "id": "ef2b",
-      "transaccion_id": "b323",
-      "cuenta_descripcion_id": 6,
-      "debe": 47.2,
-      "haber": null
-    },
-    {
-      "id": "02cf",
-      "transaccion_id": "b323",
-      "cuenta_descripcion_id": 5,
-      "debe": null,
-      "haber": 47.2
-    },
-    {
-      "id": "c462",
-      "transaccion_id": "bc32",
-      "cuenta_descripcion_id": 4,
-      "debe": 40,
-      "haber": null
-    },
-    {
-      "id": "cff0",
-      "transaccion_id": "bc32",
-      "cuenta_descripcion_id": 2,
-      "debe": 7.199999999999999,
-      "haber": null
-    },
-    {
-      "id": "5ccd",
-      "transaccion_id": "bc32",
-      "cuenta_descripcion_id": 6,
-      "debe": null,
-      "haber": 47.2
-    },
-    {
-      "id": "f1b0",
-      "transaccion_id": "b0dc",
-      "cuenta_descripcion_id": 6,
-      "debe": 47.2,
-      "haber": null
-    },
-    {
-      "id": "2fa8",
-      "transaccion_id": "b0dc",
-      "cuenta_descripcion_id": 5,
-      "debe": null,
-      "haber": 47.2
-    },
-    {
-      "id": "c355",
-      "transaccion_id": "4a9b",
-      "cuenta_descripcion_id": 4,
-      "debe": 50000,
-      "haber": null
-    },
-    {
-      "id": "2715",
-      "transaccion_id": "4a9b",
-      "cuenta_descripcion_id": 2,
-      "debe": 9000,
-      "haber": null
-    },
-    {
-      "id": "63cb",
-      "transaccion_id": "4a9b",
-      "cuenta_descripcion_id": 6,
-      "debe": null,
-      "haber": 59000
-    },
-    {
-      "id": "27fc",
-      "transaccion_id": "3656",
-      "cuenta_descripcion_id": 6,
-      "debe": 59000,
-      "haber": null
-    },
-    {
-      "id": "5700",
-      "transaccion_id": "3656",
-      "cuenta_descripcion_id": 5,
-      "debe": null,
-      "haber": 59000
-    },
-    {
-      "id": "216c",
-      "transaccion_id": "577c",
-      "cuenta_descripcion_id": 1,
-      "debe": 59000,
-      "haber": null
-    },
-    {
-      "id": "783f",
-      "transaccion_id": "577c",
-      "cuenta_descripcion_id": 2,
-      "debe": null,
-      "haber": 9000
-    },
-    {
-      "id": "46a9",
-      "transaccion_id": "577c",
-      "cuenta_descripcion_id": 3,
-      "debe": null,
-      "haber": 50000
-    },
-    {
-      "id": "15ad",
-      "transaccion_id": "3649",
-      "cuenta_descripcion_id": 5,
-      "debe": 59000,
-      "haber": null
-    },
-    {
-      "id": "297d",
-      "transaccion_id": "3649",
-      "cuenta_descripcion_id": 1,
-      "debe": null,
-      "haber": 59000
+      "haber": 590
     }
   ],
   "cuenta_descripcion": [
@@ -303,6 +175,50 @@
       "id": 6,
       "cuenta": 42,
       "descripcion": "Cuentas por pagar"
+    }
+  ],
+  "clientes_proveedores": [
+    {
+      "id": 1,
+      "nombre": "Proveedor Alimentos S.A.",
+      "tipo": "proveedor",
+      "direccion": "Av. Central 123, Lima",
+      "telefono": "987654321"
+    },
+    {
+      "id": 2,
+      "nombre": "Proveedor Tecnología Ltd.",
+      "tipo": "proveedor",
+      "direccion": "Calle Innovación 45, Arequipa",
+      "telefono": "912345678"
+    },
+    {
+      "id": 3,
+      "nombre": "Proveedor Servicios Globales",
+      "tipo": "proveedor",
+      "direccion": "Jr. Progreso 567, Trujillo",
+      "telefono": "934567890"
+    },
+    {
+      "id": 4,
+      "nombre": "Cliente Distribuciones XYZ",
+      "tipo": "cliente",
+      "direccion": "Av. Comercio 234, Cusco",
+      "telefono": "956789012"
+    },
+    {
+      "id": 5,
+      "nombre": "Cliente Tienda Minorista ABC",
+      "tipo": "cliente",
+      "direccion": "Calle Principal 89, Piura",
+      "telefono": "987123456"
+    },
+    {
+      "id": 6,
+      "nombre": "Cliente Comercializadora DEF",
+      "tipo": "cliente",
+      "direccion": "Jr. Independencia 345, Chiclayo",
+      "telefono": "965432187"
     }
   ]
 }
