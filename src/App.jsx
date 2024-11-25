@@ -78,6 +78,7 @@ function App() {
   };
 
   // Generar movimientos automáticos según el tipo de transacción
+  // Agregar lógica para pagos y cobros
   const generarMovimientosAutomaticos = async (valorDebe, tipoOperacion) => {
     if (!transaccionSeleccionada) {
       alert("Selecciona una transacción primero.");
@@ -87,10 +88,8 @@ function App() {
     const igv = valorDebe * IGV_RATE; // Cálculo del IGV
     let movimientosAutomaticos = [];
 
-    // Verificar si la transacción está correctamente seleccionada
-    console.log("Transacción seleccionada:", transaccionSeleccionada);
-
     if (tipoOperacion === "compra") {
+      // Compra de libros
       movimientosAutomaticos = [
         {
           transaccion_id: transaccionSeleccionada.id,
@@ -112,6 +111,7 @@ function App() {
         },
       ];
     } else if (tipoOperacion === "venta") {
+      // Venta de libros
       movimientosAutomaticos = [
         {
           transaccion_id: transaccionSeleccionada.id,
@@ -130,6 +130,38 @@ function App() {
           cuenta_descripcion_id: 3, // Ventas (70)
           debe: null,
           haber: valorDebe,
+        },
+      ];
+    } else if (tipoOperacion === "pago_compra") {
+      // Pago de compra
+      movimientosAutomaticos = [
+        {
+          transaccion_id: transaccionSeleccionada.id,
+          cuenta_descripcion_id: 6, // Cuentas por pagar (42)
+          debe: valorDebe + igv, // Total a pagar (base + IGV)
+          haber: null,
+        },
+        {
+          transaccion_id: transaccionSeleccionada.id,
+          cuenta_descripcion_id: 5, // Efectivo o Cuenta Corriente (10)
+          debe: null,
+          haber: valorDebe + igv, // Pago total
+        },
+      ];
+    } else if (tipoOperacion === "cobro_venta") {
+      // Cobro de venta
+      movimientosAutomaticos = [
+        {
+          transaccion_id: transaccionSeleccionada.id,
+          cuenta_descripcion_id: 5, // Cuentas por cobrar (12)
+          debe: valorDebe + igv,
+          haber: null, // Cobro total (base + IGV)
+        },
+        {
+          transaccion_id: transaccionSeleccionada.id,
+          cuenta_descripcion_id: 1, // Efectivo o Cuenta Corriente (10)
+          debe: null, // Cobro recibido
+          haber: valorDebe + igv,
         },
       ];
     }
@@ -207,20 +239,22 @@ function App() {
   }
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Gestión de Contabilidad</h1>
+    <div className="p-6 max-w-screen-lg mx-auto">
+      <h1 className="text-3xl font-bold mb-6 text-gray-800">
+        Gestión de Contabilidad
+      </h1>
 
       {/* Botones de navegación */}
-      <div className="mb-6">
+      <div className="mb-6 flex space-x-4">
         <button
           onClick={mostrarBalanceResumen}
-          className="bg-blue-500 text-white p-2 rounded mr-4"
+          className="bg-blue-500 text-white py-2 px-4 rounded-lg shadow hover:bg-blue-600 transition duration-300"
         >
           Ver Balance y Resumen Fiscal
         </button>
         <button
           onClick={mostrarTransaccionesMovimientos}
-          className="bg-green-500 text-white p-2 rounded"
+          className="bg-green-500 text-white py-2 px-4 rounded-lg shadow hover:bg-green-600 transition duration-300"
         >
           Gestionar Transacciones y Movimientos
         </button>
@@ -228,7 +262,7 @@ function App() {
 
       {/* Mostrar contenido basado en la vista activa */}
       {vistaActiva === "balanceResumen" && (
-        <div>
+        <div className="space-y-6">
           {/* Mostrar el Balance Contable y Resumen Fiscal */}
           <BalanceContable cuentas={cuentas} movimientos={movimientos} />
           <ResumenFiscal
@@ -240,18 +274,22 @@ function App() {
       )}
 
       {vistaActiva === "transaccionesMovimientos" && (
-        <div>
+        <div className="space-y-6">
           {/* Mostrar Nueva Transacción, Movimientos y Generación de movimientos */}
           <FormularioTransaccion onCrearTransaccion={handleCrearTransaccion} />
 
-          <h2 className="text-xl font-semibold">Transacciones</h2>
-          <ul className="mb-4">
+          <h2 className="text-xl font-semibold mb-4 text-gray-800">
+            Transacciones
+          </h2>
+          <ul className="space-y-2">
             {transacciones.map((t) => (
               <li
                 key={t.id}
                 onClick={() => setTransaccionSeleccionada(t)}
-                className={`p-2 border rounded mb-2 cursor-pointer ${
-                  transaccionSeleccionada?.id === t.id ? "bg-blue-100" : ""
+                className={`p-3 border rounded-lg cursor-pointer transition-all duration-300 ${
+                  transaccionSeleccionada?.id === t.id
+                    ? "bg-blue-100"
+                    : "hover:bg-gray-100"
                 }`}
               >
                 {t.fecha} - {t.descripcion}
@@ -260,13 +298,13 @@ function App() {
           </ul>
 
           {transaccionSeleccionada && (
-            <div>
+            <div className="space-y-6">
               {/* Movimientos relacionados con la transacción seleccionada */}
-              <h2 className="text-xl font-semibold mb-4">
+              <h2 className="text-xl font-semibold mb-4 text-gray-800">
                 Movimientos para: {transaccionSeleccionada.descripcion}
               </h2>
               <table className="table-auto w-full border-collapse border border-gray-300 mb-4">
-                <thead>
+                <thead className="bg-gray-100">
                   <tr>
                     <th className="border p-2">Cuenta</th>
                     <th className="border p-2">Descripción</th>
@@ -276,44 +314,40 @@ function App() {
                   </tr>
                 </thead>
                 <tbody>
-                  {movimientos
-                    .filter(
-                      (m) => m.transaccion_id === transaccionSeleccionada.id
-                    ) // Filtra los movimientos de la transacción seleccionada
-                    .map((m) => {
-                      const cuenta = cuentas.find(
-                        (c) => c.id === m.cuenta_descripcion_id
-                      );
-                      return (
-                        <tr key={m.id}>
-                          <td className="border p-2">
-                            {cuenta ? cuenta.cuenta : "Sin cuenta"}
-                          </td>
-                          <td className="border p-2">
-                            {cuenta ? cuenta.descripcion : "Sin descripción"}
-                          </td>
-                          <td className="border p-2">{m.debe}</td>
-                          <td className="border p-2">{m.haber}</td>
-                          <td className="border p-2">
-                            <button
-                              onClick={() => eliminarMovimiento(m.id)}
-                              className="bg-red-500 text-white p-2 rounded"
-                            >
-                              Eliminar
-                            </button>
-                          </td>
-                        </tr>
-                      );
-                    })}
+                  {movimientosRelacionados.map((m) => {
+                    const cuenta = cuentas.find(
+                      (c) => c.id === m.cuenta_descripcion_id
+                    );
+                    return (
+                      <tr key={m.id} className="hover:bg-gray-50">
+                        <td className="border p-2">
+                          {cuenta ? cuenta.cuenta : "Sin cuenta"}
+                        </td>
+                        <td className="border p-2">
+                          {cuenta ? cuenta.descripcion : "Sin descripción"}
+                        </td>
+                        <td className="border p-2">{m.debe}</td>
+                        <td className="border p-2">{m.haber}</td>
+                        <td className="border p-2">
+                          <button
+                            onClick={() => eliminarMovimiento(m.id)}
+                            className="bg-red-500 text-white py-1 px-3 rounded-lg shadow hover:bg-red-600 transition duration-300"
+                          >
+                            Eliminar
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
 
               {/* Generar Movimiento Automático */}
-              <div className="mb-6">
-                <h2 className="text-xl font-semibold">
+              <div className="space-y-4">
+                <h2 className="text-xl font-semibold text-gray-800">
                   Generar Movimiento Automático para venta o compra
                 </h2>
-                <div className="mb-4">
+                <div className="flex space-x-4">
                   <input
                     type="number"
                     step="0.01"
@@ -324,7 +358,7 @@ function App() {
                         debe: e.target.value,
                       })
                     }
-                    className="border p-2 rounded mr-2"
+                    className="border p-2 rounded-lg w-full"
                     placeholder="Monto base (Debe para compras o ventas)"
                   />
                   <select
@@ -334,21 +368,23 @@ function App() {
                         e.target.value
                       )
                     }
-                    className="border p-2 rounded"
+                    className="border p-2 rounded-lg w-full"
                   >
                     <option value="">Selecciona operación</option>
                     <option value="compra">Compra</option>
                     <option value="venta">Venta</option>
+                    <option value="pago_compra">Pago Compra</option>
+                    <option value="cobro_venta">Cobro Venta</option>
                   </select>
                 </div>
               </div>
 
               {/* Agregar nuevo movimiento manual */}
-              <div className="mb-6">
-                <h2 className="text-xl font-semibold">
+              <div className="space-y-4">
+                <h2 className="text-xl font-semibold text-gray-800">
                   Nuevo Movimiento Manual
                 </h2>
-                <div className="mb-4">
+                <div className="flex space-x-4">
                   <select
                     value={nuevoMovimiento.cuenta_descripcion_id}
                     onChange={(e) =>
@@ -357,7 +393,7 @@ function App() {
                         cuenta_descripcion_id: e.target.value,
                       })
                     }
-                    className="border p-2 rounded mr-2"
+                    className="border p-2 rounded-lg w-full"
                   >
                     <option value="">Selecciona una cuenta</option>
                     {cuentas.map((c) => (
@@ -377,7 +413,7 @@ function App() {
                         haber: "",
                       })
                     }
-                    className="border p-2 rounded mr-2"
+                    className="border p-2 rounded-lg w-full"
                     placeholder="Debe"
                   />
                   <input
@@ -391,12 +427,12 @@ function App() {
                         debe: "",
                       })
                     }
-                    className="border p-2 rounded mr-2"
+                    className="border p-2 rounded-lg w-full"
                     placeholder="Haber"
                   />
                   <button
                     onClick={agregarMovimiento}
-                    className="bg-blue-500 text-white p-2 rounded"
+                    className="bg-blue-500 text-white py-2 px-4 rounded-lg shadow hover:bg-blue-600 transition duration-300"
                   >
                     Agregar
                   </button>

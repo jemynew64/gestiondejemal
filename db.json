@@ -49,6 +49,16 @@
       "id": "3656",
       "descripcion": "pagando por mi perrito ",
       "fecha": "2024-11-30"
+    },
+    {
+      "id": "577c",
+      "descripcion": "vender a un admin",
+      "fecha": "2024-11-30"
+    },
+    {
+      "id": "3649",
+      "descripcion": "cobrar venta admin",
+      "fecha": "2024-12-01"
     }
   ],
   "movimientos": [
@@ -193,37 +203,72 @@
       "haber": 47.2
     },
     {
-      "id": "d55f",
+      "id": "c355",
       "transaccion_id": "4a9b",
       "cuenta_descripcion_id": 4,
       "debe": 50000,
       "haber": null
     },
     {
-      "id": "a9a1",
+      "id": "2715",
       "transaccion_id": "4a9b",
       "cuenta_descripcion_id": 2,
       "debe": 9000,
       "haber": null
     },
     {
-      "id": "1ac1",
+      "id": "63cb",
       "transaccion_id": "4a9b",
       "cuenta_descripcion_id": 6,
       "debe": null,
       "haber": 59000
     },
     {
-      "id": "90b7",
+      "id": "27fc",
       "transaccion_id": "3656",
       "cuenta_descripcion_id": 6,
       "debe": 59000,
       "haber": null
     },
     {
-      "id": "8287",
+      "id": "5700",
       "transaccion_id": "3656",
       "cuenta_descripcion_id": 5,
+      "debe": null,
+      "haber": 59000
+    },
+    {
+      "id": "216c",
+      "transaccion_id": "577c",
+      "cuenta_descripcion_id": 1,
+      "debe": 59000,
+      "haber": null
+    },
+    {
+      "id": "783f",
+      "transaccion_id": "577c",
+      "cuenta_descripcion_id": 2,
+      "debe": null,
+      "haber": 9000
+    },
+    {
+      "id": "46a9",
+      "transaccion_id": "577c",
+      "cuenta_descripcion_id": 3,
+      "debe": null,
+      "haber": 50000
+    },
+    {
+      "id": "15ad",
+      "transaccion_id": "3649",
+      "cuenta_descripcion_id": 5,
+      "debe": 59000,
+      "haber": null
+    },
+    {
+      "id": "297d",
+      "transaccion_id": "3649",
+      "cuenta_descripcion_id": 1,
       "debe": null,
       "haber": 59000
     }

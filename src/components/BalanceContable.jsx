@@ -65,42 +65,61 @@ function BalanceContable({ cuentas, movimientos }) {
   );
 
   return (
-    <div className="p-4">
-      <h2 className="text-xl font-semibold mb-4">Balance Contable</h2>
-      <table className="table-auto w-full border-collapse border border-gray-300 mb-4">
-        <thead>
+    <div className="p-6">
+      <h2 className="text-2xl font-semibold mb-6 text-gray-800">
+        Balance Contable
+      </h2>
+      <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
+        <thead className="bg-gray-100 text-gray-700">
           <tr>
-            <th className="border p-2">Cuenta</th>
-            <th className="border p-2">Nombre</th>
-            <th className="border p-2">Débito</th>
-            <th className="border p-2">Crédito</th>
-            <th className="border p-2">Deudor</th>
-            <th className="border p-2">Acreedor</th>
+            <th className="py-3 px-4 text-left font-medium">Cuenta</th>
+            <th className="py-3 px-4 text-left font-medium">Nombre</th>
+            <th className="py-3 px-4 text-right font-medium">Débito</th>
+            <th className="py-3 px-4 text-right font-medium">Crédito</th>
+            <th className="py-3 px-4 text-right font-medium">Deudor</th>
+            <th className="py-3 px-4 text-right font-medium">Acreedor</th>
           </tr>
         </thead>
         <tbody>
           {resultados.map((resultado) => (
-            <tr key={resultado.cuenta}>
-              <td className="border p-2">{resultado.cuenta}</td>
-              <td className="border p-2">{resultado.descripcion}</td>
-              <td className="border p-2">{resultado.debe.toFixed(2)}</td>
-              <td className="border p-2">{resultado.haber.toFixed(2)}</td>
-              <td className="border p-2">{resultado.saldoDeudor.toFixed(2)}</td>
-              <td className="border p-2">
+            <tr
+              key={resultado.cuenta}
+              className="border-t border-gray-200 hover:bg-gray-50"
+            >
+              <td className="py-3 px-4">{resultado.cuenta}</td>
+              <td className="py-3 px-4">{resultado.descripcion}</td>
+              <td className="py-3 px-4 text-right">
+                {resultado.debe.toFixed(2)}
+              </td>
+              <td className="py-3 px-4 text-right">
+                {resultado.haber.toFixed(2)}
+              </td>
+              <td className="py-3 px-4 text-right">
+                {resultado.saldoDeudor.toFixed(2)}
+              </td>
+              <td className="py-3 px-4 text-right">
                 {resultado.saldoAcreedor.toFixed(2)}
               </td>
             </tr>
           ))}
         </tbody>
-        <tfoot>
+        <tfoot className="bg-gray-100 text-gray-700">
           <tr>
-            <td colSpan="2" className="border p-2 font-bold">
+            <td colSpan="2" className="py-3 px-4 font-bold text-left">
               Totales
             </td>
-            <td className="border p-2">{totalDebe.toFixed(2)}</td>
-            <td className="border p-2">{totalHaber.toFixed(2)}</td>
-            <td className="border p-2">{totalDeudor.toFixed(2)}</td>
-            <td className="border p-2">{totalAcreedor.toFixed(2)}</td>
+            <td className="py-3 px-4 text-right font-bold">
+              {totalDebe.toFixed(2)}
+            </td>
+            <td className="py-3 px-4 text-right font-bold">
+              {totalHaber.toFixed(2)}
+            </td>
+            <td className="py-3 px-4 text-right font-bold">
+              {totalDeudor.toFixed(2)}
+            </td>
+            <td className="py-3 px-4 text-right font-bold">
+              {totalAcreedor.toFixed(2)}
+            </td>
           </tr>
         </tfoot>
       </table>
