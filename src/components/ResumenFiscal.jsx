@@ -3,7 +3,8 @@ const ResumenFiscal = ({ transacciones, movimientos, cuentas }) => {
   const calcularTotalPagar = () => {
     let totalCompras = 0;
     let totalVentas = 0;
-    let totalIGV = 0;
+    let totalIGVCompras = 0;
+    let totalIGVVentas = 0;
 
     // Calcular totales
     movimientos.forEach((movimiento) => {
@@ -14,26 +15,31 @@ const ResumenFiscal = ({ transacciones, movimientos, cuentas }) => {
         totalVentas += movimiento.haber || 0;
       }
       if (movimiento.cuenta_descripcion_id === 2) {
-        totalIGV += movimiento.debe || 0;
-        totalIGV -= movimiento.haber || 0;
+        if (movimiento.debe) {
+          totalIGVCompras += movimiento.debe || 0;
+        }
+        if (movimiento.haber) {
+          totalIGVVentas += movimiento.haber || 0;
+        }
       }
     });
 
     return {
       totalCompras,
       totalVentas,
-      totalIGV,
+      totalIGVCompras,
+      totalIGVVentas,
     };
   };
 
-  const { totalCompras, totalVentas, totalIGV } = calcularTotalPagar();
+  const { totalCompras, totalVentas, totalIGVCompras, totalIGVVentas } =
+    calcularTotalPagar();
 
   // Calcular el saldo a pagar o a favor del IGV
-  const saldoIGV = totalIGV > 0 ? totalIGV : 0;
-  const saldoFavorIGV = totalIGV < 0 ? Math.abs(totalIGV) : 0;
+  const saldoIGV = totalIGVVentas - totalIGVCompras;
 
-  // Total neto a pagar (compras + IGV)
-  const totalNetoPagar = totalCompras + saldoIGV;
+  // Total neto a pagar (compras + IGV sobre compras)
+  const totalNetoPagar = totalVentas + totalIGVVentas;
 
   // Calcular las cuentas por cobrar y por pagar
   let cuentasPorCobrar = 0;
@@ -49,7 +55,7 @@ const ResumenFiscal = ({ transacciones, movimientos, cuentas }) => {
   });
 
   // Determinar el estado financiero (positivo o negativo)
-  const saldoGeneral = totalNetoPagar + cuentasPorCobrar - cuentasPorPagar;
+  const saldoGeneral = cuentasPorCobrar - cuentasPorPagar;
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-lg space-y-6">
@@ -66,7 +72,7 @@ const ResumenFiscal = ({ transacciones, movimientos, cuentas }) => {
             Total Compras: S/ {totalCompras.toFixed(2)}
           </p>
           <p className="text-yellow-600">
-            IGV sobre Compras: S/ {saldoIGV.toFixed(2)}
+            IGV sobre Compras: S/ {totalIGVCompras.toFixed(2)}
           </p>
         </div>
 
@@ -96,7 +102,7 @@ const ResumenFiscal = ({ transacciones, movimientos, cuentas }) => {
         >
           {saldoIGV > 0
             ? `IGV a Pagar: S/ ${saldoIGV.toFixed(2)}`
-            : `IGV a Favor: S/ ${saldoFavorIGV.toFixed(2)}`}
+            : `IGV a Favor: S/ ${Math.abs(saldoIGV).toFixed(2)}`}
         </p>
       </div>
 

@@ -24,6 +24,11 @@
       "id": "a1d6",
       "fecha": "2024-10-01",
       "descripcion": "compra de libros"
+    },
+    {
+      "id": "b323",
+      "descripcion": "pago de libros",
+      "fecha": "2024-11-01"
     }
   ],
   "movimientos": [
@@ -96,6 +101,41 @@
       "cuenta_descripcion_id": 1,
       "debe": null,
       "haber": 53.1
+    },
+    {
+      "id": "d9d7",
+      "transaccion_id": "a1d6",
+      "cuenta_descripcion_id": 4,
+      "debe": 40,
+      "haber": null
+    },
+    {
+      "id": "6777",
+      "transaccion_id": "a1d6",
+      "cuenta_descripcion_id": 2,
+      "debe": 7.199999999999999,
+      "haber": null
+    },
+    {
+      "id": "a3d0",
+      "transaccion_id": "a1d6",
+      "cuenta_descripcion_id": 6,
+      "debe": null,
+      "haber": 47.2
+    },
+    {
+      "id": "ef2b",
+      "transaccion_id": "b323",
+      "cuenta_descripcion_id": 6,
+      "debe": 47.2,
+      "haber": null
+    },
+    {
+      "id": "02cf",
+      "transaccion_id": "b323",
+      "cuenta_descripcion_id": 5,
+      "debe": null,
+      "haber": 47.2
     }
   ],
   "cuenta_descripcion": [
