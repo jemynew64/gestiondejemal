@@ -1,0 +1,133 @@
+{
+  "transacciones": [
+    {
+      "id": 1,
+      "fecha": "2024-11-24",
+      "descripcion": "Por la provisión de la compra"
+    },
+    {
+      "id": 2,
+      "fecha": "2024-11-27",
+      "descripcion": "Por el pago de la compra"
+    },
+    {
+      "id": 3,
+      "fecha": "2024-11-30",
+      "descripcion": "Por la provisión de la venta"
+    },
+    {
+      "id": 4,
+      "fecha": "2024-12-02",
+      "descripcion": "Por el cobro de la venta"
+    },
+    {
+      "id": "a1d6",
+      "fecha": "2024-10-01",
+      "descripcion": "compra de libros"
+    }
+  ],
+  "movimientos": [
+    {
+      "id": 1,
+      "transaccion_id": 1,
+      "cuenta_descripcion_id": 4,
+      "debe": 40,
+      "haber": null
+    },
+    {
+      "id": 2,
+      "transaccion_id": 1,
+      "cuenta_descripcion_id": 2,
+      "debe": 7.2,
+      "haber": null
+    },
+    {
+      "id": 3,
+      "transaccion_id": 1,
+      "cuenta_descripcion_id": 6,
+      "debe": null,
+      "haber": 47.2
+    },
+    {
+      "id": 4,
+      "transaccion_id": 2,
+      "cuenta_descripcion_id": 6,
+      "debe": 47.2,
+      "haber": null
+    },
+    {
+      "id": 5,
+      "transaccion_id": 2,
+      "cuenta_descripcion_id": 5,
+      "debe": null,
+      "haber": 47.2
+    },
+    {
+      "id": 6,
+      "transaccion_id": 3,
+      "cuenta_descripcion_id": 1,
+      "debe": 53.1,
+      "haber": null
+    },
+    {
+      "id": 7,
+      "transaccion_id": 3,
+      "cuenta_descripcion_id": 2,
+      "debe": null,
+      "haber": 8.1
+    },
+    {
+      "id": 8,
+      "transaccion_id": 3,
+      "cuenta_descripcion_id": 3,
+      "debe": null,
+      "haber": 45
+    },
+    {
+      "id": 9,
+      "transaccion_id": 4,
+      "cuenta_descripcion_id": 5,
+      "debe": 53.1,
+      "haber": null
+    },
+    {
+      "id": 10,
+      "transaccion_id": 4,
+      "cuenta_descripcion_id": 1,
+      "debe": null,
+      "haber": 53.1
+    }
+  ],
+  "cuenta_descripcion": [
+    {
+      "id": 1,
+      "cuenta": 12,
+      "descripcion": "Cuentas por cobrar"
+    },
+    {
+      "id": 2,
+      "cuenta": 40,
+      "descripcion": "IGV"
+    },
+    {
+      "id": 3,
+      "cuenta": 70,
+      "descripcion": "Ventas"
+    },
+    {
+      "id": 4,
+      "cuenta": 60,
+      "descripcion": "Compras"
+    },
+    {
+      "id": 5,
+      "cuenta": 10,
+      "descripcion": "Efectivo o Cuenta Corriente"
+    },
+    {
+      "id": 6,
+      "cuenta": 42,
+      "descripcion": "Cuentas por pagar"
+    }
+  ]
+}
