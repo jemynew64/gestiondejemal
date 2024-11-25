@@ -9,6 +9,8 @@ function App() {
   const [cuentas, setCuentas] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const [vistaActiva, setVistaActiva] = useState("balanceResumen"); // "balanceResumen" o "transaccionesMovimientos"
+
   const [transaccionSeleccionada, setTransaccionSeleccionada] = useState(null);
   const [nuevoMovimiento, setNuevoMovimiento] = useState({
     cuenta_descripcion_id: "",
@@ -17,6 +19,14 @@ function App() {
   });
 
   const IGV_RATE = 0.18; // Tasa del IGV
+
+  const mostrarBalanceResumen = () => {
+    setVistaActiva("balanceResumen");
+  };
+
+  const mostrarTransaccionesMovimientos = () => {
+    setVistaActiva("transaccionesMovimientos");
+  };
 
   // Cargar datos desde json-server
   useEffect(() => {
@@ -200,175 +210,200 @@ function App() {
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Gestión de Contabilidad</h1>
 
-      {/* Componente de Resumen Fiscal */}
-      <ResumenFiscal
-        transacciones={transacciones}
-        movimientos={movimientos}
-        cuentas={cuentas}
-      />
-      {/* Componente de Balance Contable */}
-      <BalanceContable cuentas={cuentas} movimientos={movimientos} />
+      {/* Botones de navegación */}
+      <div className="mb-6">
+        <button
+          onClick={mostrarBalanceResumen}
+          className="bg-blue-500 text-white p-2 rounded mr-4"
+        >
+          Ver Balance y Resumen Fiscal
+        </button>
+        <button
+          onClick={mostrarTransaccionesMovimientos}
+          className="bg-green-500 text-white p-2 rounded"
+        >
+          Gestionar Transacciones y Movimientos
+        </button>
+      </div>
 
-      {/* Formulario para crear una nueva transacción */}
-      <FormularioTransaccion onCrearTransaccion={handleCrearTransaccion} />
-
-      {/* Mostrar transacciones */}
-      <h2 className="text-xl font-semibold">Transacciones</h2>
-      <ul className="mb-4">
-        {transacciones.map((t) => (
-          <li
-            key={t.id}
-            onClick={() => setTransaccionSeleccionada(t)}
-            className={`p-2 border rounded mb-2 cursor-pointer ${
-              transaccionSeleccionada?.id === t.id ? "bg-blue-100" : ""
-            }`}
-          >
-            {t.fecha} - {t.descripcion}
-          </li>
-        ))}
-      </ul>
-
-      {/* Mostrar movimientos relacionados */}
-      {transaccionSeleccionada && (
+      {/* Mostrar contenido basado en la vista activa */}
+      {vistaActiva === "balanceResumen" && (
         <div>
-          <h2 className="text-xl font-semibold mb-4">
-            Movimientos para: {transaccionSeleccionada.descripcion}
-          </h2>
-          <table className="table-auto w-full border-collapse border border-gray-300 mb-4">
-            <thead>
-              <tr>
-                <th className="border p-2">Cuenta</th>
-                <th className="border p-2">Descripción</th>
-                <th className="border p-2">Debe</th>
-                <th className="border p-2">Haber</th>
-                <th className="border p-2">Acción</th>
-              </tr>
-            </thead>
-            <tbody>
-              {movimientosRelacionados.map((m) => {
-                const cuenta = cuentas.find(
-                  (c) => c.id === m.cuenta_descripcion_id
-                );
-                return (
-                  <tr key={m.id}>
-                    <td className="border p-2">
-                      {cuenta ? cuenta.cuenta : "Sin cuenta"}
-                    </td>
-                    <td className="border p-2">
-                      {cuenta ? cuenta.descripcion : "Sin descripción"}
-                    </td>
-                    <td className="border p-2">
-                      {m.debe ? m.debe.toFixed(2) : "-"}
-                    </td>
-                    <td className="border p-2">
-                      {m.haber ? m.haber.toFixed(2) : "-"}
-                    </td>
-                    <td className="border p-2">
-                      <button
-                        onClick={() => eliminarMovimiento(m.id)}
-                        className="bg-red-500 text-white p-2 rounded"
-                      >
-                        Eliminar
-                      </button>
-                    </td>
+          {/* Mostrar el Balance Contable y Resumen Fiscal */}
+          <BalanceContable cuentas={cuentas} movimientos={movimientos} />
+          <ResumenFiscal
+            transacciones={transacciones}
+            movimientos={movimientos}
+            cuentas={cuentas}
+          />
+        </div>
+      )}
+
+      {vistaActiva === "transaccionesMovimientos" && (
+        <div>
+          {/* Mostrar Nueva Transacción, Movimientos y Generación de movimientos */}
+          <FormularioTransaccion onCrearTransaccion={handleCrearTransaccion} />
+
+          <h2 className="text-xl font-semibold">Transacciones</h2>
+          <ul className="mb-4">
+            {transacciones.map((t) => (
+              <li
+                key={t.id}
+                onClick={() => setTransaccionSeleccionada(t)}
+                className={`p-2 border rounded mb-2 cursor-pointer ${
+                  transaccionSeleccionada?.id === t.id ? "bg-blue-100" : ""
+                }`}
+              >
+                {t.fecha} - {t.descripcion}
+              </li>
+            ))}
+          </ul>
+
+          {transaccionSeleccionada && (
+            <div>
+              {/* Movimientos relacionados con la transacción seleccionada */}
+              <h2 className="text-xl font-semibold mb-4">
+                Movimientos para: {transaccionSeleccionada.descripcion}
+              </h2>
+              <table className="table-auto w-full border-collapse border border-gray-300 mb-4">
+                <thead>
+                  <tr>
+                    <th className="border p-2">Cuenta</th>
+                    <th className="border p-2">Descripción</th>
+                    <th className="border p-2">Debe</th>
+                    <th className="border p-2">Haber</th>
+                    <th className="border p-2">Acción</th>
                   </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                </thead>
+                <tbody>
+                  {movimientos
+                    .filter(
+                      (m) => m.transaccion_id === transaccionSeleccionada.id
+                    ) // Filtra los movimientos de la transacción seleccionada
+                    .map((m) => {
+                      const cuenta = cuentas.find(
+                        (c) => c.id === m.cuenta_descripcion_id
+                      );
+                      return (
+                        <tr key={m.id}>
+                          <td className="border p-2">
+                            {cuenta ? cuenta.cuenta : "Sin cuenta"}
+                          </td>
+                          <td className="border p-2">
+                            {cuenta ? cuenta.descripcion : "Sin descripción"}
+                          </td>
+                          <td className="border p-2">{m.debe}</td>
+                          <td className="border p-2">{m.haber}</td>
+                          <td className="border p-2">
+                            <button
+                              onClick={() => eliminarMovimiento(m.id)}
+                              className="bg-red-500 text-white p-2 rounded"
+                            >
+                              Eliminar
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                </tbody>
+              </table>
 
-          {/* Agregar nuevo movimiento automáticamente */}
-          <div className="mb-6">
-            <h2 className="text-xl font-semibold">
-              Generar Movimiento Automático para venta o compra
-            </h2>
-            <div className="mb-4">
-              <input
-                type="number"
-                step="0.01"
-                value={nuevoMovimiento.debe}
-                onChange={(e) =>
-                  setNuevoMovimiento({
-                    ...nuevoMovimiento,
-                    debe: e.target.value,
-                  })
-                }
-                className="border p-2 rounded mr-2"
-                placeholder="Monto base (Debe para compras o ventas)"
-              />
-              <select
-                onChange={(e) =>
-                  generarMovimientosAutomaticos(
-                    parseFloat(nuevoMovimiento.debe),
-                    e.target.value
-                  )
-                }
-                className="border p-2 rounded"
-              >
-                <option value="">Selecciona operación</option>
-                <option value="compra">Compra</option>
-                <option value="venta">Venta</option>
-              </select>
-            </div>
-          </div>
+              {/* Generar Movimiento Automático */}
+              <div className="mb-6">
+                <h2 className="text-xl font-semibold">
+                  Generar Movimiento Automático para venta o compra
+                </h2>
+                <div className="mb-4">
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={nuevoMovimiento.debe}
+                    onChange={(e) =>
+                      setNuevoMovimiento({
+                        ...nuevoMovimiento,
+                        debe: e.target.value,
+                      })
+                    }
+                    className="border p-2 rounded mr-2"
+                    placeholder="Monto base (Debe para compras o ventas)"
+                  />
+                  <select
+                    onChange={(e) =>
+                      generarMovimientosAutomaticos(
+                        parseFloat(nuevoMovimiento.debe),
+                        e.target.value
+                      )
+                    }
+                    className="border p-2 rounded"
+                  >
+                    <option value="">Selecciona operación</option>
+                    <option value="compra">Compra</option>
+                    <option value="venta">Venta</option>
+                  </select>
+                </div>
+              </div>
 
-          {/* Agregar nuevo movimiento manual */}
-          <div className="mb-6">
-            <h2 className="text-xl font-semibold">Nuevo Movimiento Manual</h2>
-            <div className="mb-4">
-              <select
-                value={nuevoMovimiento.cuenta_descripcion_id}
-                onChange={(e) =>
-                  setNuevoMovimiento({
-                    ...nuevoMovimiento,
-                    cuenta_descripcion_id: e.target.value,
-                  })
-                }
-                className="border p-2 rounded mr-2"
-              >
-                <option value="">Selecciona una cuenta</option>
-                {cuentas.map((c) => (
-                  <option key={c.id} value={c.id}>
-                    {c.cuenta} - {c.descripcion}
-                  </option>
-                ))}
-              </select>
-              <input
-                type="number"
-                step="0.01"
-                value={nuevoMovimiento.debe}
-                onChange={(e) =>
-                  setNuevoMovimiento({
-                    ...nuevoMovimiento,
-                    debe: e.target.value,
-                    haber: "",
-                  })
-                }
-                className="border p-2 rounded mr-2"
-                placeholder="Debe"
-              />
-              <input
-                type="number"
-                step="0.01"
-                value={nuevoMovimiento.haber}
-                onChange={(e) =>
-                  setNuevoMovimiento({
-                    ...nuevoMovimiento,
-                    haber: e.target.value,
-                    debe: "",
-                  })
-                }
-                className="border p-2 rounded mr-2"
-                placeholder="Haber"
-              />
-              <button
-                onClick={agregarMovimiento}
-                className="bg-blue-500 text-white p-2 rounded"
-              >
-                Agregar
-              </button>
+              {/* Agregar nuevo movimiento manual */}
+              <div className="mb-6">
+                <h2 className="text-xl font-semibold">
+                  Nuevo Movimiento Manual
+                </h2>
+                <div className="mb-4">
+                  <select
+                    value={nuevoMovimiento.cuenta_descripcion_id}
+                    onChange={(e) =>
+                      setNuevoMovimiento({
+                        ...nuevoMovimiento,
+                        cuenta_descripcion_id: e.target.value,
+                      })
+                    }
+                    className="border p-2 rounded mr-2"
+                  >
+                    <option value="">Selecciona una cuenta</option>
+                    {cuentas.map((c) => (
+                      <option key={c.id} value={c.id}>
+                        {c.cuenta} - {c.descripcion}
+                      </option>
+                    ))}
+                  </select>
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={nuevoMovimiento.debe}
+                    onChange={(e) =>
+                      setNuevoMovimiento({
+                        ...nuevoMovimiento,
+                        debe: e.target.value,
+                        haber: "",
+                      })
+                    }
+                    className="border p-2 rounded mr-2"
+                    placeholder="Debe"
+                  />
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={nuevoMovimiento.haber}
+                    onChange={(e) =>
+                      setNuevoMovimiento({
+                        ...nuevoMovimiento,
+                        haber: e.target.value,
+                        debe: "",
+                      })
+                    }
+                    className="border p-2 rounded mr-2"
+                    placeholder="Haber"
+                  />
+                  <button
+                    onClick={agregarMovimiento}
+                    className="bg-blue-500 text-white p-2 rounded"
+                  >
+                    Agregar
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       )}
     </div>

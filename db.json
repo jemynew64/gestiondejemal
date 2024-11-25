@@ -29,6 +29,26 @@
       "id": "b323",
       "descripcion": "pago de libros",
       "fecha": "2024-11-01"
+    },
+    {
+      "id": "bc32",
+      "descripcion": "comprando perrito",
+      "fecha": "2024-11-29"
+    },
+    {
+      "id": "b0dc",
+      "descripcion": "pagar la compra de los perritos",
+      "fecha": "2024-11-29"
+    },
+    {
+      "id": "4a9b",
+      "descripcion": "comprando a mi perrito neron",
+      "fecha": "2024-11-09"
+    },
+    {
+      "id": "3656",
+      "descripcion": "pagando por mi perrito ",
+      "fecha": "2024-11-30"
     }
   ],
   "movimientos": [
@@ -136,6 +156,76 @@
       "cuenta_descripcion_id": 5,
       "debe": null,
       "haber": 47.2
+    },
+    {
+      "id": "c462",
+      "transaccion_id": "bc32",
+      "cuenta_descripcion_id": 4,
+      "debe": 40,
+      "haber": null
+    },
+    {
+      "id": "cff0",
+      "transaccion_id": "bc32",
+      "cuenta_descripcion_id": 2,
+      "debe": 7.199999999999999,
+      "haber": null
+    },
+    {
+      "id": "5ccd",
+      "transaccion_id": "bc32",
+      "cuenta_descripcion_id": 6,
+      "debe": null,
+      "haber": 47.2
+    },
+    {
+      "id": "f1b0",
+      "transaccion_id": "b0dc",
+      "cuenta_descripcion_id": 6,
+      "debe": 47.2,
+      "haber": null
+    },
+    {
+      "id": "2fa8",
+      "transaccion_id": "b0dc",
+      "cuenta_descripcion_id": 5,
+      "debe": null,
+      "haber": 47.2
+    },
+    {
+      "id": "d55f",
+      "transaccion_id": "4a9b",
+      "cuenta_descripcion_id": 4,
+      "debe": 50000,
+      "haber": null
+    },
+    {
+      "id": "a9a1",
+      "transaccion_id": "4a9b",
+      "cuenta_descripcion_id": 2,
+      "debe": 9000,
+      "haber": null
+    },
+    {
+      "id": "1ac1",
+      "transaccion_id": "4a9b",
+      "cuenta_descripcion_id": 6,
+      "debe": null,
+      "haber": 59000
+    },
+    {
+      "id": "90b7",
+      "transaccion_id": "3656",
+      "cuenta_descripcion_id": 6,
+      "debe": 59000,
+      "haber": null
+    },
+    {
+      "id": "8287",
+      "transaccion_id": "3656",
+      "cuenta_descripcion_id": 5,
+      "debe": null,
+      "haber": 59000
     }
   ],
   "cuenta_descripcion": [

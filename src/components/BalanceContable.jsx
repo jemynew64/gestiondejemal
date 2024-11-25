@@ -4,91 +4,40 @@ function BalanceContable({ cuentas, movimientos }) {
   const [resultados, setResultados] = useState([]);
 
   useEffect(() => {
+    // Definimos una función para manejar la lógica de saldos de forma simplificada
+    const procesarSaldo = (totalDebe, totalHaber) => {
+      let saldoDeudor = 0;
+      let saldoAcreedor = 0;
+
+      if (totalDebe > totalHaber) {
+        saldoDeudor = totalDebe - totalHaber;
+      } else if (totalHaber > totalDebe) {
+        saldoAcreedor = totalHaber - totalDebe;
+      }
+
+      return { saldoDeudor, saldoAcreedor };
+    };
+
     const balance = cuentas.map((cuenta) => {
+      // Filtrar los movimientos que pertenecen a esta cuenta
       const movimientosCuenta = movimientos.filter(
         (movimiento) => movimiento.cuenta_descripcion_id === cuenta.id
       );
 
       let totalDebe = 0;
       let totalHaber = 0;
-      let saldoDeudor = 0;
-      let saldoAcreedor = 0;
 
+      // Procesar todos los movimientos asociados a la cuenta
       movimientosCuenta.forEach((movimiento) => {
         if (movimiento.debe) totalDebe += movimiento.debe;
         if (movimiento.haber) totalHaber += movimiento.haber;
-
-        // Ajuste de saldos dependiendo del tipo de cuenta
-        if (cuenta.id === 1 || cuenta.id === 7) {
-          // "Cuentas por cobrar" o "Efectivo o Cuenta Corriente"
-          if (movimiento.debe) {
-            saldoDeudor += movimiento.debe;
-          }
-          if (movimiento.haber) {
-            saldoAcreedor += movimiento.haber;
-          }
-        } else if (cuenta.id === 6) {
-          // "Cuentas por pagar"
-          if (movimiento.debe) {
-            saldoAcreedor += movimiento.debe;
-          }
-          if (movimiento.haber) {
-            saldoDeudor += movimiento.haber;
-          }
-        } else if (cuenta.id === 2) {
-          // "IGV"
-          if (movimiento.debe) {
-            saldoDeudor += movimiento.debe;
-          }
-          if (movimiento.haber) {
-            saldoAcreedor += movimiento.haber;
-          }
-        } else if (cuenta.id === 3) {
-          // "Ventas"
-          if (movimiento.debe) {
-            saldoDeudor += movimiento.debe;
-          }
-          if (movimiento.haber) {
-            saldoAcreedor += movimiento.haber;
-          }
-        } else if (cuenta.id === 4) {
-          // "Compras"
-          if (movimiento.debe) {
-            saldoDeudor += movimiento.debe;
-          }
-          if (movimiento.haber) {
-            saldoAcreedor += movimiento.haber;
-          }
-        } else if (cuenta.id === 5) {
-          // "Efectivo"
-          if (movimiento.debe) {
-            saldoDeudor += movimiento.debe;
-          }
-          if (movimiento.haber) {
-            saldoAcreedor += movimiento.haber;
-          }
-        }
       });
 
-      // Ajustar la diferencia entre Débito y Crédito para IGV
-      if (cuenta.id === 2) {
-        if (totalDebe > totalHaber) {
-          saldoDeudor = totalDebe - totalHaber;
-          saldoAcreedor = 0;
-        } else if (totalHaber > totalDebe) {
-          saldoAcreedor = totalHaber - totalDebe;
-          saldoDeudor = 0;
-        } else {
-          saldoDeudor = 0;
-          saldoAcreedor = 0;
-        }
-      }
-
-      // Aquí agregamos una lógica para manejar los casos de igual débito y crédito.
-      if (totalDebe === totalHaber) {
-        saldoDeudor = 0;
-        saldoAcreedor = 0;
-      }
+      // Usamos la función generica de procesamiento de saldo
+      const { saldoDeudor, saldoAcreedor } = procesarSaldo(
+        totalDebe,
+        totalHaber
+      );
 
       return {
         cuenta: cuenta.cuenta,

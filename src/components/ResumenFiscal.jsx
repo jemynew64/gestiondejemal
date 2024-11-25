@@ -8,18 +8,29 @@ const ResumenFiscal = ({ transacciones, movimientos, cuentas }) => {
 
     // Calcular totales
     movimientos.forEach((movimiento) => {
+      console.log(movimiento); // Ver los movimientos
+
+      // Compras
       if (movimiento.cuenta_descripcion_id === 4) {
-        totalCompras += movimiento.debe || 0;
+        totalCompras += movimiento.debe || 0; // Compras
+        console.log(`Total Compras (cuenta 4): ${totalCompras}`); // Depuración
       }
+
+      // Ventas
       if (movimiento.cuenta_descripcion_id === 3) {
-        totalVentas += movimiento.haber || 0;
+        totalVentas += movimiento.haber || 0; // Ventas
+        console.log(`Total Ventas (cuenta 3): ${totalVentas}`); // Depuración
       }
+
+      // IGV
       if (movimiento.cuenta_descripcion_id === 2) {
         if (movimiento.debe) {
-          totalIGVCompras += movimiento.debe || 0;
+          totalIGVCompras += movimiento.debe || 0; // IGV Compras
+          console.log(`Total IGV Compras: ${totalIGVCompras}`); // Depuración
         }
         if (movimiento.haber) {
-          totalIGVVentas += movimiento.haber || 0;
+          totalIGVVentas += movimiento.haber || 0; // IGV Ventas
+          console.log(`Total IGV Ventas: ${totalIGVVentas}`); // Depuración
         }
       }
     });
@@ -38,7 +49,7 @@ const ResumenFiscal = ({ transacciones, movimientos, cuentas }) => {
   // Calcular el saldo a pagar o a favor del IGV
   const saldoIGV = totalIGVVentas - totalIGVCompras;
 
-  // Total neto a pagar (compras + IGV sobre compras)
+  // Total neto a pagar (ventas + IGV sobre ventas)
   const totalNetoPagar = totalVentas + totalIGVVentas;
 
   // Calcular las cuentas por cobrar y por pagar
@@ -54,7 +65,6 @@ const ResumenFiscal = ({ transacciones, movimientos, cuentas }) => {
     }
   });
 
-  // Determinar el estado financiero (positivo o negativo)
   const saldoGeneral = cuentasPorCobrar - cuentasPorPagar;
 
   return (
@@ -65,7 +75,6 @@ const ResumenFiscal = ({ transacciones, movimientos, cuentas }) => {
 
       {/* Resumen general en tarjetas */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Compras */}
         <div className="bg-yellow-100 p-4 rounded-lg shadow-md">
           <h3 className="text-lg font-semibold text-yellow-800">Compras</h3>
           <p className="text-xl text-yellow-700">
@@ -76,7 +85,6 @@ const ResumenFiscal = ({ transacciones, movimientos, cuentas }) => {
           </p>
         </div>
 
-        {/* Ventas */}
         <div className="bg-green-100 p-4 rounded-lg shadow-md">
           <h3 className="text-lg font-semibold text-green-800">Ventas</h3>
           <p className="text-xl text-green-700">
@@ -88,7 +96,6 @@ const ResumenFiscal = ({ transacciones, movimientos, cuentas }) => {
         </div>
       </div>
 
-      {/* IGV Resumen */}
       <div
         className={`p-4 rounded-lg shadow-md ${
           saldoIGV > 0 ? "bg-red-100" : "bg-green-100"
@@ -106,7 +113,6 @@ const ResumenFiscal = ({ transacciones, movimientos, cuentas }) => {
         </p>
       </div>
 
-      {/* Resumen de Cuentas */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-blue-100 p-4 rounded-lg shadow-md">
           <h3 className="text-lg font-semibold text-blue-800">
@@ -127,7 +133,6 @@ const ResumenFiscal = ({ transacciones, movimientos, cuentas }) => {
         </div>
       </div>
 
-      {/* Saldo General */}
       <div
         className={`p-4 rounded-lg shadow-md ${
           saldoGeneral >= 0 ? "bg-green-50" : "bg-red-50"
